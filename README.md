@@ -33,5 +33,10 @@ docker build client -t boo-client
 docker run --rm -it -v $PWD:/app -w /app boo-client python -m grpc_tools.protoc \
 -I spec --python_out=client --grpc_python_out=client boo.proto
 
-docker run --rm -it -v $PWD:/app -w /app --network host boo-client python query.py
+docker run --rm -it -v $PWD/client:/app -w /app --network host boo-client python query.py
+```
+
+Result:
+```
+msg: "\'hello\' from #PID<0.1104.0>"
 ```
