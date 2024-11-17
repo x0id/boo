@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package boo;
+
+service Echo {
+  rpc Ping (PingMsg) returns (PongMsg) {}
+}
+
+message PingMsg { string msg = 1; }
+message PongMsg { string msg = 1; }
