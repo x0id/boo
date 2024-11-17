@@ -1,21 +1,37 @@
-# Boo
 
-**TODO: Add description**
+# Get protoc (platform-dependent)
+```
+wget https://github.com/protocolbuffers/protobuf/releases/download/v28.3/protoc-28.3-osx-aarch_64.zip
+unzip ...
+```
+Ensure protoc in the PATH.
 
-## Installation
+# Dependencies
+```
+mix deps.get
+mix deps.compile
+mix escript.install hex protobuf
+```
+Add ~/.mix/escripts to the PATH.
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `boo` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:boo, "~> 0.1.0"}
-  ]
-end
+# Build service
+```
+mix compile
+MIX_ENV=prod mix release
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/boo>.
+# Run service
+```
+_build/prod/rel/boo/bin/boo start
+```
 
+# Python client example
+
+```
+docker build client -t boo-client
+
+docker run --rm -it -v $PWD:/app -w /app boo-client python -m grpc_tools.protoc \
+-I spec --python_out=client --grpc_python_out=client boo.proto
+
+docker run --rm -it -v $PWD:/app -w /app --network host boo-client python query.py
+```
